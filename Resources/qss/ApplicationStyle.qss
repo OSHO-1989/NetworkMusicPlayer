@@ -1,0 +1,177 @@
+QFrame#topFrame
+{
+    border: 1px solid rgb(255,192,203);
+    background-color: #323232;
+}
+
+QFrame#titleContextLabel
+{
+    color: white;
+}
+
+QFrame#contextFrame
+{
+    background-color: #1e1e1e;
+}
+
+QFrame#midLeftFrame
+{
+    background-color: #323232;
+}
+
+QLabel
+{
+    color: white;
+    font-family: "Microsoft YaHei";
+}
+
+QToolButton#minButton{
+    border: none;
+    background-color: transparent;
+    image: url(:/icon/Resources/icon/icon-zuixiaohua.svg);
+}
+
+QToolButton#maxButton{
+    border: none;
+    background-color: transparent;
+    image: url(:/icon/Resources/icon/icon-zuidahua.svg);
+}
+
+QToolButton#closeButton{
+    border: none;
+    background-color: transparent;
+    image: url(:/icon/Resources/icon/icon-guanbi.png);
+}
+
+QListView#musicLibraryListView
+{
+    border: none;
+    color: white;
+    background-color: #323232;
+}
+
+QListView#localCollectionListView
+{
+    border: none;
+    color: white;
+    background-color: #323232;
+}
+
+QListView#songsNameListView
+{
+    border: none;
+    color: white;
+    background-color: #323232;
+}
+
+QToolButton#prevMusicButton
+{
+   border-image: url(:/icon/Resources/icon/playcontrol/icon-prev-normal.svg);
+}
+
+QToolButton#prevMusicButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-prev-pressed.svg);
+}
+
+QToolButton#playMusicButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-play-normal.svg);
+}
+
+QToolButton#playMusicButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-play-pressed.svg);
+}
+
+QToolButton#stopMusicButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-suspend-normal.svg);
+}
+
+QToolButton#stopMusicButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-suspend-pressed.svg);
+}
+
+QToolButton#nextMusicButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-next-normal.svg);
+}
+
+QToolButton#nextMusicButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-next-pressed.svg);
+}
+
+QToolButton#shoucangToolButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-collect-normal.svg);
+}
+
+QToolButton#shoucangToolButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-collect-pressed.svg);
+}
+
+QToolButton#mvVideoToolButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-mvvideo-normal.svg);
+}
+
+QToolButton#mvVideoToolButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-mvvideo-pressed.svg);
+}
+
+QToolButton#downToolButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-download-normal.svg);
+}
+
+QToolButton#downToolButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-download-pressed.svg);
+}
+
+
+
+QToolButton#shunxuPlayButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-shunxuplay-normal.svg);
+}
+
+QToolButton#shunxuPlayButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-shunxuplay-pressed.svg);
+}
+
+QToolButton#danquxunhuanPlayButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-xunhuanplay-normal.svg);
+}
+
+QToolButton#danquxunhuanPlayButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-xunhuanplay-pressed.svg);
+}
+
+QToolButton#sunjibofangPlayButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-suijiplay-normal.svg);
+}
+
+QToolButton#sunjibofangPlayButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-suijiplayplay-pressed.svg);
+}
+
+QToolButton#playListButton
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-playlist-normal.svg);
+}
+
+QToolButton#playListButton:pressed
+{
+    border-image: url(:/icon/Resources/icon/playcontrol/icon-playlist-pressed.svg);
+}

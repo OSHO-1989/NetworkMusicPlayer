@@ -1,0 +1,45 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>Resources/icon/icon-music.png</file>
+        <file>Resources/icon/icon-guanbi.svg</file>
+        <file>Resources/icon/icon-guanbi.png</file>
+        <file>Resources/icon/icon-zuidahua.svg</file>
+        <file>Resources/icon/icon-zuixiaohua.svg</file>
+        <file>Resources/icon/icon-xiamimusic.svg</file>
+        <file>Resources/icon/icon-wangyiyunmusic.svg</file>
+        <file>Resources/icon/icon-localmusic.svg</file>
+        <file>Resources/icon/icon-qqmusic.svg</file>
+        <file>Resources/icon/icon-collectionmusic.svg</file>
+        <file>Resources/icon/icon-gedanlist.svg</file>
+        <file>Resources/icon/icon-meinv.jpg</file>
+        <file>Resources/icon/playcontrol/icon-collected-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-collected-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-collect-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-collect-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-next-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-next-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-play-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-play-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-prev-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-prev-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-suspend-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-suspend-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-volume-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-volume-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-download-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-download-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-mvvideo-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-mvvideo-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-playlist-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-playlist-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-shunxuplay-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-shunxuplay-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-suijiplay-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-suijiplayplay-pressed.svg</file>
+        <file>Resources/icon/playcontrol/icon-xunhuanplay-normal.svg</file>
+        <file>Resources/icon/playcontrol/icon-xunhuanplay-pressed.svg</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file>Resources/qss/ApplicationStyle.qss</file>
+    </qresource>
+</RCC>
