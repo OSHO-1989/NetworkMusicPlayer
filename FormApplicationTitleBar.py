@@ -60,7 +60,7 @@ class FormApplicationTitleBar(QtWidgets.QWidget):
         self.titleBoxLayout.addWidget(self.maxButton)
         self.titleBoxLayout.addWidget(self.closeButton)
         self.titleBoxLayout.addItem(self.rightSpaceItem)
-        self.titleBoxLayout.setSpacing(10)
+        self.titleBoxLayout.setSpacing(20)
         self.titleFrame.setLayout(self.titleBoxLayout)
         self.mainLayout.addWidget(self.titleFrame)
         self.setLayout(self.mainLayout)

@@ -8,19 +8,27 @@
 # @Time    :   2020/5/31 15:59
 # @Desc    :
 from PySide2 import QtWidgets
+from PySide2.QtCore import QSize, QDir
 from PySide2.QtGui import QFont, QPixmap, Qt, QStandardItem, QIcon, QStandardItemModel
-from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QLabel, QListView, QStackedWidget
-from enum import Enum
+from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QLabel, QListView, QStackedWidget, QWidget, QSizePolicy, \
+    QSpacerItem, QToolButton, QFileDialog
+from enum import Enum, IntEnum
 
 
 class PageContextIndex(Enum):
-    local_music_index = 0
+    '''
+    页面索引枚举值
+    '''
+    Local_Music_Index = 0
+    Cloud_Music_Index = 1
+    QQ_Music_Index = 2
+    XiaMi_Music_Index = 3
 
 
 class FormMidContextWidget(QtWidgets.QWidget):
-    #定义成员变量
+    # 定义成员变量
 
-    #定义信号
+    # 定义信号
 
     def __init__(self):
         super().__init__()
@@ -29,11 +37,12 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.__loadMusicLibraryListWidgetData()
         self.__loadSongsNameListWidgetData()
         self.__loadCollectionMusicListWidgetData()
-
+        self.__InitPageContext()
+        self.__connectSignalsAndSlots()
 
     def __initForm(self):
         self.mainLayout = QHBoxLayout()
-        self.mainLayout.setContentsMargins(1,1,1,1)
+        self.mainLayout.setContentsMargins(1, 1, 1, 1)
         self.contextFrame = QtWidgets.QFrame()
         self.contextFrame.setObjectName("contextFrame")
         self.midContextLayout = QHBoxLayout()
@@ -75,12 +84,6 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.midLeftLayout.addWidget(self.localCollectionTitleLabel)
         self.midLeftLayout.addWidget(self.localCollectionListView)
         self.rightContextStackWidget = QStackedWidget()
-        self.testLabel = QLabel()
-        self.testLabel.setScaledContents(True)
-        self.testLabel.setPixmap(
-            QPixmap(":/icon/Resources/icon/icon-meinv.jpg").scaled(self.testLabel.width(), self.testLabel.height(),
-                                                                   Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        self.rightContextStackWidget.addWidget(self.testLabel)
         self.midContextLayout.addWidget(self.midLeftFrame)
         self.midContextLayout.addWidget(self.rightContextStackWidget)
         self.midContextLayout.setStretch(0, 0)
@@ -88,7 +91,6 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.contextFrame.setLayout(self.midContextLayout)
         self.mainLayout.addWidget(self.contextFrame)
         self.setLayout(self.mainLayout)
-
 
     def __loadMusicLibraryListWidgetData(self):
         self.textFont = QFont("微软雅黑", 11)
@@ -121,7 +123,6 @@ class FormMidContextWidget(QtWidgets.QWidget):
 
         self.musicLibraryListView.setSpacing(2)
         self.musicLibraryListView.setModel(self.musicLibraryModel)
-
 
     def __loadSongsNameListWidgetData(self):
         self.wubaiItemData = QStandardItem("伍佰&China blue")
@@ -190,7 +191,6 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.songsNameListView.setSpacing(2)
         self.songsNameListView.setModel(self.songsNameListModel)
 
-
     def __loadCollectionMusicListWidgetData(self):
         self.jingdianItemData = QStandardItem("经典老歌")
         self.textFont = QFont("微软雅黑", 11)
@@ -220,3 +220,51 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.songsNameModel.appendRow(self.remengequItemData)
         self.localCollectionListView.setSpacing(2)
         self.localCollectionListView.setModel(self.songsNameModel)
+
+    def __InitPageContext(self):
+        # 1.本地音乐StackedWidget
+        self.localMusicStackWidget = QStackedWidget()
+        self.browseButtonWidget = QWidget()
+        self.browseLayout = QHBoxLayout()
+        self.topSpaceItem = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.leftSpaceItem = QSpacerItem(20, 20, QSizePolicy.Fixed, QSizePolicy.Expanding)
+        self.rightSpaceItem = QSpacerItem(20, 20, QSizePolicy.Fixed, QSizePolicy.Expanding)
+        self.browseButton = QToolButton()
+        self.textFont = QFont("微软雅黑", 28)
+        self.browseButton.setFont(self.textFont)
+        self.browseButton.setText("浏览音乐...")
+        self.browseButtonLayout = QVBoxLayout()
+        self.browseButtonLayout.addItem(self.leftSpaceItem)
+        self.browseButtonLayout.addWidget(self.browseButton)
+        self.browseButtonLayout.addItem(self.rightSpaceItem)
+        self.browseButton.setFixedSize(QSize(200, 100))
+
+        self.buttomSpaceItem = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.browseLayout.addItem(self.topSpaceItem)
+        self.browseLayout.addLayout(self.browseButtonLayout)
+        self.browseLayout.addItem(self.buttomSpaceItem)
+        self.browseButtonWidget.setLayout(self.browseLayout)
+
+        self.localMusicStackWidget.addWidget(self.browseButtonWidget)
+        self.rightContextStackWidget.insertWidget(int(PageContextIndex.Local_Music_Index.value),
+                                                  self.localMusicStackWidget)
+
+    def __connectSignalsAndSlots(self):
+        self.browseButton.clicked.connect(self.__browseButtonSlot)
+
+    def __browseButtonSlot(self):
+        path = QFileDialog.getExistingDirectory(self, "浏览文件夹", QDir.currentPath(),
+                                                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+        if (len(path) == 0):
+            return
+
+        dir = QDir(path)
+        convertFolderPath = dir.fromNativeSeparators(path)
+        if (dir.exists() == False):
+            self.audioFileList = ""
+
+        dir.setFilter(QDir.Files)
+        dir.setSorting(QDir.Name)
+        dir.setNameFilters(str("*.mp3;*.wav").split(";"))
+        self.audioFileList = dir.entryList()
+        print(self.audioFileList)

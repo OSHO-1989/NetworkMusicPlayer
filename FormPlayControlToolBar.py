@@ -8,8 +8,9 @@
 # @Time    :   2020/5/31 19:48
 # @Desc    :
 from PySide2 import QtWidgets
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QUrl
 from PySide2.QtGui import QFont
+from PySide2.QtMultimedia import QMediaPlayer
 from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QSizePolicy, QToolButton, QLabel, QSlider
 
 
@@ -18,6 +19,7 @@ class FormPlayControlToolBar(QtWidgets.QWidget):
         super().__init__()
 
         self.__initForm()
+        self.__PlayAudioFile()
 
 
     def __initForm(self):
@@ -159,3 +161,10 @@ class FormPlayControlToolBar(QtWidgets.QWidget):
         self.controlBarFrame.setLayout(self.toolBarLayout)
         self.mainLayout.addWidget(self.controlBarFrame)
         self.setLayout(self.mainLayout)
+
+
+    def __PlayAudioFile(self):
+        self.mediaPlayer = QMediaPlayer()
+        self.mediaPlayer.setMedia(QUrl.fromLocalFile("E:/Test.mp3"))
+        self.mediaPlayer.setVolume(50)
+        self.mediaPlayer.play()
