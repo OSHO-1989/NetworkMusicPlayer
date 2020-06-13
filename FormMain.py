@@ -39,7 +39,7 @@ class FormMain(QtWidgets.QMainWindow):
         self.appTitleBar.setFixedHeight(25)
 
         # 2.中间主体显示内容
-        self.midContextWidget = FormCenterWidgetContext.FormMidContextWidget()
+        self.midContextWidget = FormCenterWidgetContext.FormCenterWidgetContext()
 
         # 3.控制条部分内容
         self.controlToolBar = FormPlayControlToolBar.FormPlayControlToolBar()

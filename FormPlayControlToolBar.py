@@ -17,10 +17,7 @@ from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QSizePolicy, QToolButton
 class FormPlayControlToolBar(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-
         self.__initForm()
-        self.__PlayAudioFile()
-
 
     def __initForm(self):
         self.mainLayout = QHBoxLayout()

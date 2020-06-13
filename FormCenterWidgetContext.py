@@ -8,11 +8,17 @@
 # @Time    :   2020/5/31 15:59
 # @Desc    :
 from PySide2 import QtWidgets
-from PySide2.QtCore import QSize, QDir
+from PySide2.QtCore import QSize, QDir, QUrl
 from PySide2.QtGui import QFont, QPixmap, Qt, QStandardItem, QIcon, QStandardItemModel
+from PySide2.QtMultimedia import QMediaPlayer, QMediaPlaylist
 from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QLabel, QListView, QStackedWidget, QWidget, QSizePolicy, \
-    QSpacerItem, QToolButton, QFileDialog
+    QSpacerItem, QToolButton, QFileDialog, QFrame, QListWidget
 from enum import Enum, IntEnum
+
+from LocalMusic.FormLocalMusicList import FormLocalMusicList
+from LocalMusic.AudioPlayManage import AudioPlayManager
+from LocalMusic.MusicListManager import MusicListManager
+import ApplicationResources_rc
 
 
 class PageContextIndex(Enum):
@@ -24,16 +30,15 @@ class PageContextIndex(Enum):
     QQ_Music_Index = 2
     XiaMi_Music_Index = 3
 
-
-class FormMidContextWidget(QtWidgets.QWidget):
+class FormCenterWidgetContext(QtWidgets.QWidget):
     # 定义成员变量
 
     # 定义信号
 
     def __init__(self):
         super().__init__()
-
         self.__initForm()
+        self.__initPlayManager()
         self.__loadMusicLibraryListWidgetData()
         self.__loadSongsNameListWidgetData()
         self.__loadCollectionMusicListWidgetData()
@@ -230,14 +235,15 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.leftSpaceItem = QSpacerItem(20, 20, QSizePolicy.Fixed, QSizePolicy.Expanding)
         self.rightSpaceItem = QSpacerItem(20, 20, QSizePolicy.Fixed, QSizePolicy.Expanding)
         self.browseButton = QToolButton()
+        self.browseButton.setObjectName("browseButton")
+        self.browseButton.setIcon(QIcon(":/icon/Resources/icon/icon-folder.svg"))
         self.textFont = QFont("微软雅黑", 28)
         self.browseButton.setFont(self.textFont)
-        self.browseButton.setText("浏览音乐...")
         self.browseButtonLayout = QVBoxLayout()
         self.browseButtonLayout.addItem(self.leftSpaceItem)
         self.browseButtonLayout.addWidget(self.browseButton)
         self.browseButtonLayout.addItem(self.rightSpaceItem)
-        self.browseButton.setFixedSize(QSize(200, 100))
+        self.browseButton.setFixedSize(QSize(250, 250))
 
         self.buttomSpaceItem = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.browseLayout.addItem(self.topSpaceItem)
@@ -245,7 +251,11 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.browseLayout.addItem(self.buttomSpaceItem)
         self.browseButtonWidget.setLayout(self.browseLayout)
 
-        self.localMusicStackWidget.addWidget(self.browseButtonWidget)
+        self.localMusicStackWidget.insertWidget(0, self.browseButtonWidget)
+        self.formLocalMusicList = FormLocalMusicList(self)
+
+        self.localMusicStackWidget.insertWidget(1, self.formLocalMusicList)
+
         self.rightContextStackWidget.insertWidget(int(PageContextIndex.Local_Music_Index.value),
                                                   self.localMusicStackWidget)
 
@@ -253,6 +263,10 @@ class FormMidContextWidget(QtWidgets.QWidget):
         self.browseButton.clicked.connect(self.__browseButtonSlot)
 
     def __browseButtonSlot(self):
+        '''
+        添加本地文件列表
+        :return:
+        '''
         path = QFileDialog.getExistingDirectory(self, "浏览文件夹", QDir.currentPath(),
                                                 QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
         if (len(path) == 0):
@@ -265,6 +279,23 @@ class FormMidContextWidget(QtWidgets.QWidget):
 
         dir.setFilter(QDir.Files)
         dir.setSorting(QDir.Name)
-        dir.setNameFilters(str("*.mp3;*.wav").split(";"))
+        dir.setNameFilters(str("*.mp3;*.wav;*.flac").split(";"))
         self.audioFileList = dir.entryList()
-        print(self.audioFileList)
+
+        for oneFile in self.audioFileList:
+            AbsolutePath = convertFolderPath + "/" + oneFile
+            self.playList.addLocalMedia(AbsolutePath)
+            print(AbsolutePath)
+
+        self.playList.addNetworkMedia(QUrl(
+            "http://antiserver.kuwo.cn/anti.s?useless=/resource/&format=mp3&rid=MUSIC_69640747&response=res&type=convert_url&"))
+        self.player.setVolume(100)
+        self.player.startPlay()
+        self.localMusicStackWidget.setCurrentIndex(1)
+
+    def __initPlayManager(self):
+        self.playList = MusicListManager()
+        self.playList.setPlayMode(QMediaPlaylist.Random)
+        self.player = AudioPlayManager()
+        self.player.setAudioPlayList(self.playList.musicPlayList())
+
