@@ -17,6 +17,7 @@ import FormApplicationTitleBar
 import FormCenterWidgetContext
 import FormPlayControlToolBar
 
+
 class FormMain(QtWidgets.QMainWindow):
     # 窗口最大化标志
     windowMaxFlag = False
@@ -31,7 +32,6 @@ class FormMain(QtWidgets.QMainWindow):
         self.topFrame = QtWidgets.QFrame()
         self.topFrame.setObjectName("topFrame")
         self.setCentralWidget(self.topFrame)
-
         self.topLayout = QtWidgets.QVBoxLayout()
 
         # 1.标题栏布局
@@ -48,18 +48,16 @@ class FormMain(QtWidgets.QMainWindow):
         self.topLayout.setStretch(0, 0)
         self.topLayout.setStretch(1, 1)
         self.topLayout.setStretch(2, 0)
-        self.topLayout.setContentsMargins(1,1,1,1)
+        self.topLayout.setContentsMargins(1, 1, 1, 1)
         self.topLayout.addWidget(self.appTitleBar)
         self.topLayout.addWidget(self.midContextWidget)
         self.topLayout.addWidget(self.controlToolBar)
         self.topLayout.setMargin(3)
 
         self.topFrame.setLayout(self.topLayout)
+        self.__connectSignalsAndSlots()
 
-        self.connectSignalsAndSlots()
-
-
-    def connectSignalsAndSlots(self):
+    def __connectSignalsAndSlots(self):
         '''
         连接信号与槽
         :return:
@@ -67,15 +65,16 @@ class FormMain(QtWidgets.QMainWindow):
         self.appTitleBar.minButtonClicked.connect(self.showMinimized)
         self.appTitleBar.maxButtonClicked.connect(self.__changeWindowSize)
         self.appTitleBar.closeButtonClicked.connect(self.close)
-
+        self.controlToolBar.playPreviousMusicSignal.connect(self.midContextWidget.playPrevMusicSlot)
+        self.controlToolBar.playNextMusicSignal.connect(self.midContextWidget.playNextMusicSlot)
+        self.controlToolBar.startPlayMusicSignal.connect(self.midContextWidget.startPlayMusicSlot)
+        self.controlToolBar.stopPlayMusicSignal.connect(self.midContextWidget.stopPlayMusicSlot)
 
     def showMaximizedSlot(self):
         self.showMaximized()
 
-
     def showNormalSlot(self):
         self.showNormal()
-
 
     def __changeWindowSize(self):
         '''
@@ -89,7 +88,6 @@ class FormMain(QtWidgets.QMainWindow):
             self.showNormal()
             self.windowMaxFlag = False
 
-
     def mousePressEvent(self, QMouseEvent):
         '''
         鼠标按下
@@ -100,7 +98,6 @@ class FormMain(QtWidgets.QMainWindow):
             QMouseEvent.accept()
             self.setCursor(QCursor(Qt.OpenHandCursor))  # 更改鼠标图标
 
-
     def mouseMoveEvent(self, QMouseEvent):
         '''
         鼠标移动
@@ -110,14 +107,12 @@ class FormMain(QtWidgets.QMainWindow):
                 self.move(QMouseEvent.globalPos() - self.m_Position)  # 更改窗口位置
                 QMouseEvent.accept()
 
-
     def mouseReleaseEvent(self, QMouseEvent):
         '''
         鼠标释放
         '''
         self.m_flag = False
         self.setCursor(QCursor(Qt.ArrowCursor))
-
 
     def mouseDoubleClickEvent(self, QMouseEvent):
         if self.m_Position.y() <= self.appTitleBar.rect().height():

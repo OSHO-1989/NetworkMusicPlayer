@@ -47,11 +47,11 @@ class Ui_FormLocalMusicList(object):
         self.explainContextTextEdit.setObjectName(u"explainContextTextEdit")
         font1 = QFont()
         font1.setFamily(u"\u5fae\u8f6f\u96c5\u9ed1")
-        font1.setPointSize(14)
+        font1.setPointSize(13)
         self.explainContextTextEdit.setFont(font1)
+        self.explainContextTextEdit.setAutoFillBackground(True)
         self.explainContextTextEdit.setStyleSheet(u"QTextEdit#explainContextTextEdit\n"
 "{\n"
-"	\n"
 "	background-color: rgb(0, 0, 0);\n"
 "}")
         self.explainContextTextEdit.setReadOnly(True)
@@ -83,10 +83,10 @@ class Ui_FormLocalMusicList(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
-        self.musicListWidget = QListWidget(FormLocalMusicList)
-        self.musicListWidget.setObjectName(u"musicListWidget")
+        self.musicTableView = QTableView(FormLocalMusicList)
+        self.musicTableView.setObjectName(u"musicTableView")
 
-        self.verticalLayout_2.addWidget(self.musicListWidget)
+        self.verticalLayout_2.addWidget(self.musicTableView)
 
         self.verticalLayout_2.setStretch(1, 1)
 
@@ -99,6 +99,11 @@ class Ui_FormLocalMusicList(object):
         FormLocalMusicList.setWindowTitle(QCoreApplication.translate("FormLocalMusicList", u"Form", None))
         self.leftPictureLabel.setText(QCoreApplication.translate("FormLocalMusicList", u"TextLabel", None))
         self.explainTitleLabel.setText(QCoreApplication.translate("FormLocalMusicList", u"TextLabel", None))
-        self.playAllButton.setText(QCoreApplication.translate("FormLocalMusicList", u"\u64ad\u653e\u6240\u6709", None))
+        self.explainContextTextEdit.setHtml(QCoreApplication.translate("FormLocalMusicList", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'\u5fae\u8f6f\u96c5\u9ed1'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'SimSun'; font-size:9pt; background-color:#1e1e1e;\"><br /></p></body></html>", None))
+        self.playAllButton.setText(QCoreApplication.translate("FormLocalMusicList", u"\u5168\u90e8\u64ad\u653e", None))
     # retranslateUi
 

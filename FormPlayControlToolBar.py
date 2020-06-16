@@ -8,26 +8,38 @@
 # @Time    :   2020/5/31 19:48
 # @Desc    :
 from PySide2 import QtWidgets
-from PySide2.QtCore import Qt, QUrl
+from PySide2.QtCore import Qt, QUrl, Signal
 from PySide2.QtGui import QFont
-from PySide2.QtMultimedia import QMediaPlayer
+from PySide2.QtMultimedia import QMediaPlayer, QMediaPlaylist
 from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QSizePolicy, QToolButton, QLabel, QSlider
 
 
 class FormPlayControlToolBar(QtWidgets.QWidget):
+    #播放下一首信号
+    playNextMusicSignal = Signal()
+    #播放上一首信号
+    playPreviousMusicSignal = Signal()
+    #开始播放信号
+    startPlayMusicSignal = Signal()
+    #停止播放信号
+    stopPlayMusicSignal = Signal()
+
     def __init__(self):
         super().__init__()
         self.__initForm()
+        self.__initPlayControl()
+        self.__initPlayMode()
+        self.__connectSignalsAndSlots()
 
     def __initForm(self):
         self.mainLayout = QHBoxLayout()
-        self.mainLayout.setContentsMargins(0, 0 , 0, 0)
+        self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.controlBarFrame = QtWidgets.QFrame()
         self.textFont = QFont("微软雅黑", 11)
 
         # 整体布局
         self.toolBarLayout = QHBoxLayout()
-        self.toolBarLayout.setContentsMargins(20,2,20,2)
+        self.toolBarLayout.setContentsMargins(20, 2, 20, 2)
 
         # 1.播放控住部分布局
         self.leftControlLayout = QVBoxLayout()
@@ -95,7 +107,7 @@ class FormPlayControlToolBar(QtWidgets.QWidget):
         self.midtopHBoxLayout.addWidget(self.shoucangToolButton)
         self.midtopHBoxLayout.addWidget(self.mvVideoToolButton)
         self.midtopHBoxLayout.addWidget(self.downToolButton)
-        #第二行
+        # 第二行
         self.midBottomHBoxLayout = QHBoxLayout()
         self.playedTimeLabel = QLabel("00:00:00")
         self.playedTimeLabel.setObjectName("playedTimeLabel")
@@ -159,9 +171,71 @@ class FormPlayControlToolBar(QtWidgets.QWidget):
         self.mainLayout.addWidget(self.controlBarFrame)
         self.setLayout(self.mainLayout)
 
+    def __initPlayControl(self):
+        # 初始状态下先隐藏停止按钮
+        self.stopMusicButton.hide()
 
-    def __PlayAudioFile(self):
-        self.mediaPlayer = QMediaPlayer()
-        self.mediaPlayer.setMedia(QUrl.fromLocalFile("E:/Test.mp3"))
-        self.mediaPlayer.setVolume(50)
-        self.mediaPlayer.play()
+    def __initPlayMode(self):
+        self.setPlayMode(QMediaPlaylist.Random)
+
+    def setPlayMode(self, PlaybackMode):
+        if PlaybackMode == QMediaPlaylist.Random:
+            self.showSunjibofangButton()
+        elif PlaybackMode == QMediaPlaylist.CurrentItemInLoop:
+            self.showDangquxunhuanButton()
+        elif PlaybackMode == QMediaPlaylist.Loop:
+            self.showShunxuPlayButton()
+        else:
+            self.defaultMode()
+
+    def showShunxuPlayButton(self):
+        self.shunxuPlayButton.show()
+        self.danquxunhuanPlayButton.hide()
+        self.sunjibofangPlayButton.hide()
+
+    def showDangquxunhuanButton(self):
+        self.shunxuPlayButton.hide()
+        self.danquxunhuanPlayButton.show()
+        self.sunjibofangPlayButton.hide()
+
+    def showSunjibofangButton(self):
+        self.shunxuPlayButton.hide()
+        self.danquxunhuanPlayButton.hide()
+        self.sunjibofangPlayButton.show()
+
+    def defaultMode(self):
+        self.showSunjibofangButton()
+
+    def __connectSignalsAndSlots(self):
+        self.shunxuPlayButton.clicked.connect(self.showDangquxunhuanButton)
+        self.danquxunhuanPlayButton.clicked.connect(self.showSunjibofangButton)
+        self.sunjibofangPlayButton.clicked.connect(self.showShunxuPlayButton)
+        self.prevMusicButton.clicked.connect(self.playPreviousMusicSlot)
+        self.playMusicButton.clicked.connect(self.startPlayMusicSlot)
+        self.stopMusicButton.clicked.connect(self.stopPlayMusicSlot)
+        self.nextMusicButton.clicked.connect(self.playNextMusicSlot)
+
+    def __updatePLayButtonStatus(self, status):
+        if status == QMediaPlayer.StoppedState:
+            self.stopMusicButton.hide()
+            self.playMusicButton.show()
+        elif status == QMediaPlayer.PlayingState:
+            self.playMusicButton.hide()
+            self.stopMusicButton.show()
+        elif status == QMediaPlayer.pauseState:
+            self.playMusicButton.hide()
+            self.stopMusicButton.show()
+
+    def playNextMusicSlot(self):
+        self.playNextMusicSignal.emit()
+
+    def playPreviousMusicSlot(self):
+        self.playPreviousMusicSignal.emit()
+
+    def startPlayMusicSlot(self):
+        self.startPlayMusicSignal.emit()
+        self.__updatePLayButtonStatus(QMediaPlayer.PlayingState)
+
+    def stopPlayMusicSlot(self):
+        self.stopPlayMusicSignal.emit()
+        self.__updatePLayButtonStatus(QMediaPlayer.StoppedState)

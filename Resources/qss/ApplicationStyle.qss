@@ -190,9 +190,33 @@ QTextEdit#explainContextTextEdit
     background-image: url(:/icon/Resources/icon/icon-folder.svg);
 }
 
-QToolButton#playAllButton
+QToolButton#playAllButton, #playingSongButton
 {
     color: rgb(255, 255, 255);
-    border:2px solid rgb(255, 255, 255);
+    border:1px solid rgb(255, 255, 255);
     background-color: rgb(30, 30, 30);
+}
+
+QTableView#musicTableView
+{
+    color: rgb(255, 255, 255);
+    background-color: rgb(30, 30, 30);
+    selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,
+                                  stop: 0 #FF92BB, stop: 1 orange);
+
+    alternate-background-color: #323232;
+}
+
+QHeaderView::section {
+  background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                    stop:0 #616161, stop: 0.5 #505050,
+                                    stop: 0.5 #434343, stop:1 #656565);
+  color: white;
+  padding-left: 4px;
+  border: 1px solid #6c6c6c;
+}
+
+QHeaderView::section:checked
+{
+  background-color: #323232;
 }

@@ -28,5 +28,11 @@ class MusicListManager(QObject):
     def musicPlayList(self):
         return self.playlist
 
+    def playNextMusic(self):
+        self.playlist.next()
+
+    def playPrevMusic(self):
+        self.playlist.previous()
+
 
 

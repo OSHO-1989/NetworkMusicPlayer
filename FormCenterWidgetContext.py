@@ -17,6 +17,8 @@ from enum import Enum, IntEnum
 
 from LocalMusic.FormLocalMusicList import FormLocalMusicList
 from LocalMusic.AudioPlayManage import AudioPlayManager
+from LocalMusic.MP3LabelInfoHelper import MP3LabelInfoHelper
+from LocalMusic.MusicFileInfo import MusicFileInfo
 from LocalMusic.MusicListManager import MusicListManager
 import ApplicationResources_rc
 
@@ -29,6 +31,7 @@ class PageContextIndex(Enum):
     Cloud_Music_Index = 1
     QQ_Music_Index = 2
     XiaMi_Music_Index = 3
+
 
 class FormCenterWidgetContext(QtWidgets.QWidget):
     # 定义成员变量
@@ -255,7 +258,6 @@ class FormCenterWidgetContext(QtWidgets.QWidget):
         self.formLocalMusicList = FormLocalMusicList(self)
 
         self.localMusicStackWidget.insertWidget(1, self.formLocalMusicList)
-
         self.rightContextStackWidget.insertWidget(int(PageContextIndex.Local_Music_Index.value),
                                                   self.localMusicStackWidget)
 
@@ -282,15 +284,26 @@ class FormCenterWidgetContext(QtWidgets.QWidget):
         dir.setNameFilters(str("*.mp3;*.wav;*.flac").split(";"))
         self.audioFileList = dir.entryList()
 
+        localPlayList = []
+        index = 1
         for oneFile in self.audioFileList:
             AbsolutePath = convertFolderPath + "/" + oneFile
             self.playList.addLocalMedia(AbsolutePath)
-            print(AbsolutePath)
+            musicInfo = MusicFileInfo()
+            musicInfo.index = index
+            musicInfo.musicPath = AbsolutePath
+            self.musicFileLabelInfo = MP3LabelInfoHelper(AbsolutePath)
+            musicInfo.collectionRecords = self.musicFileLabelInfo.album
+            musicInfo.artist = self.musicFileLabelInfo.artist
+            musicInfo.time = self.musicFileLabelInfo.length
+            localPlayList.append(musicInfo)
+            index = index + 1
 
         self.playList.addNetworkMedia(QUrl(
             "http://antiserver.kuwo.cn/anti.s?useless=/resource/&format=mp3&rid=MUSIC_69640747&response=res&type=convert_url&"))
+        self.formLocalMusicList.setPlayList(localPlayList)
         self.player.setVolume(100)
-        self.player.startPlay()
+
         self.localMusicStackWidget.setCurrentIndex(1)
 
     def __initPlayManager(self):
@@ -299,3 +312,14 @@ class FormCenterWidgetContext(QtWidgets.QWidget):
         self.player = AudioPlayManager()
         self.player.setAudioPlayList(self.playList.musicPlayList())
 
+    def playNextMusicSlot(self):
+        self.playList.playNextMusic()
+
+    def playPrevMusicSlot(self):
+        self.playList.playPrevMusic()
+
+    def startPlayMusicSlot(self):
+        self.player.startPlay()
+
+    def stopPlayMusicSlot(self):
+        self.player.stopPlay()
