@@ -226,6 +226,10 @@ class FormPlayControlToolBar(QtWidgets.QWidget):
             self.playMusicButton.hide()
             self.stopMusicButton.show()
 
+    def updateCurrentPlayMusicName(self, QMediaContent):
+        currentPlayMusicName = QMediaContent.canonicalUrl().toString()
+        self.playingSongContextLabel.setText(currentPlayMusicName)
+
     def playNextMusicSlot(self):
         self.playNextMusicSignal.emit()
 

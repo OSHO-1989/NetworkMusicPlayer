@@ -11,6 +11,7 @@
 from PySide2 import (QtWidgets)
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QCursor, QFont
+from PySide2.QtMultimedia import QMediaContent
 from PySide2.QtWidgets import (QSizePolicy, QLabel, QVBoxLayout, QHBoxLayout, QToolButton, QSlider)
 
 import FormApplicationTitleBar
@@ -69,6 +70,7 @@ class FormMain(QtWidgets.QMainWindow):
         self.controlToolBar.playNextMusicSignal.connect(self.midContextWidget.playNextMusicSlot)
         self.controlToolBar.startPlayMusicSignal.connect(self.midContextWidget.startPlayMusicSlot)
         self.controlToolBar.stopPlayMusicSignal.connect(self.midContextWidget.stopPlayMusicSlot)
+        self.midContextWidget.currentMediaChangedSignal[QMediaContent].connect(self.controlToolBar.updateCurrentPlayMusicName)
 
     def showMaximizedSlot(self):
         self.showMaximized()

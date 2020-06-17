@@ -8,9 +8,9 @@
 # @Time    :   2020/5/31 15:59
 # @Desc    :
 from PySide2 import QtWidgets
-from PySide2.QtCore import QSize, QDir, QUrl
+from PySide2.QtCore import QSize, QDir, QUrl, Signal
 from PySide2.QtGui import QFont, QPixmap, Qt, QStandardItem, QIcon, QStandardItemModel
-from PySide2.QtMultimedia import QMediaPlayer, QMediaPlaylist
+from PySide2.QtMultimedia import QMediaPlayer, QMediaPlaylist, QMediaContent
 from PySide2.QtWidgets import QHBoxLayout, QVBoxLayout, QLabel, QListView, QStackedWidget, QWidget, QSizePolicy, \
     QSpacerItem, QToolButton, QFileDialog, QFrame, QListWidget
 from enum import Enum, IntEnum
@@ -35,7 +35,7 @@ class PageContextIndex(Enum):
 
 class FormCenterWidgetContext(QtWidgets.QWidget):
     # 定义成员变量
-
+    currentMediaChangedSignal = Signal(QMediaContent)
     # 定义信号
 
     def __init__(self):
@@ -263,6 +263,7 @@ class FormCenterWidgetContext(QtWidgets.QWidget):
 
     def __connectSignalsAndSlots(self):
         self.browseButton.clicked.connect(self.__browseButtonSlot)
+        self.playList.musicPlayList().currentMediaChanged[QMediaContent].connect(self.currentMediaChangedSignal)
 
     def __browseButtonSlot(self):
         '''
