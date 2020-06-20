@@ -1,0 +1,4 @@
+// 获取音乐的播放地址
+http://localhost:3000/song/url?id=1451661639
+
+http://www.wanghu21.xyz:3000/song/url?id=1451661639
